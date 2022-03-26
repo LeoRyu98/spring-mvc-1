@@ -44,15 +44,8 @@ public class FrontControllerServletV3 extends HttpServlet {
         // mv.setViewName("논리 뷰 이름");
         String viewName = mv.getViewName(); // 논리이름 new-form
         MyView view = viewResolver(viewName);
-
         // mv.addObject("이름", View 로 전달할 값)
         view.render(mv.getModel(), request, response);
-    }
-
-    // 뷰 리졸버
-    // 컨트롤러가 반환한 논리 뷰 이름을 실제 물리 뷰 경로로 변경
-    private MyView viewResolver(String viewName) {
-        return new MyView("WEB-INF/views/" + viewName + ".jsp");
     }
 
     // HttpServletRequest 에서 파라미터 정보를 모두 꺼내서 Map 으로 변환
@@ -62,5 +55,11 @@ public class FrontControllerServletV3 extends HttpServlet {
         request.getParameterNames().asIterator()
                 .forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
         return paramMap;
+    }
+
+    // 뷰 리졸버
+    // 컨트롤러가 반환한 논리 뷰 이름을 실제 물리 뷰 경로로 변경
+    private MyView viewResolver(String viewName) {
+        return new MyView("/WEB-INF/views/" + viewName + ".jsp");
     }
 }

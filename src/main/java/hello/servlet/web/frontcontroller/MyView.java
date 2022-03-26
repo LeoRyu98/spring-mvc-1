@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 해당 경로(viewPath) 서블릿이나 JSP 로 이동 (View 로 제어권을 넘겨준다)
  * 서버 내부에서 다시 호출이 발생(forward)한다.
- * JSP 로 forward 해서 JSP 를 렌더링 한다.
+ * JSP 로 forward 해서 렌더링 한다.
  */
 public class MyView {
 

@@ -25,6 +25,7 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
         ControllerV3 controller = (ControllerV3) Handler;
 
         Map<String, String> paramMap = createParamMap(request);
+
         ModelView mv = controller.process(paramMap);
 
         return mv;

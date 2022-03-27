@@ -25,7 +25,9 @@ import java.util.Map;
 @WebServlet(name = "frontControllerServletV5", urlPatterns = "/front-controller/v5/*")
 public class FrontControllerServletV5 extends HttpServlet {
 
+    // 매핑 정보
     private final Map<String, Object> handlerMappingMap = new HashMap<>();
+
     private final List<MyHandlerAdapter> handlerAdapters = new ArrayList<>();
 
     public FrontControllerServletV5() {
@@ -53,6 +55,7 @@ public class FrontControllerServletV5 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        // 핸들러 매핑 정보인 handlerMappingMap 에서 URL 에 매핑된 핸들러(컨트롤러) 객체를 찾아서 반환
         String requestURI = request.getRequestURI(); // 요청 URI
         Object handler = handlerMappingMap.get(requestURI);
 
@@ -61,8 +64,10 @@ public class FrontControllerServletV5 extends HttpServlet {
             return;
         }
 
+        // 어댑터 조회
         MyHandlerAdapter adapter = getHandlerAdapter(handler);
 
+        // 어댑터는 handler(컨트롤러)를 호출하고 그 결과를 어댑터에 맞추어 반환
         ModelView mv = adapter.handle(request, response, handler);
 
         String viewName = mv.getViewName(); // 논리이름 new-form
@@ -71,6 +76,7 @@ public class FrontControllerServletV5 extends HttpServlet {
         view.render(mv.getModel(), request, response);
     }
 
+    // 핸들러를 처리할 수 있는 어댑터 조회
     private MyHandlerAdapter getHandlerAdapter(Object handler) {
         for (MyHandlerAdapter adapter : handlerAdapters) {
             if (adapter.supports(handler)){

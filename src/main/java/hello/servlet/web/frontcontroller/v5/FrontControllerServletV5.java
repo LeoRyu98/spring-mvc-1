@@ -64,15 +64,17 @@ public class FrontControllerServletV5 extends HttpServlet {
             return;
         }
 
-        // 어댑터 조회
+        // 핸들러 어댑터 조회
         MyHandlerAdapter adapter = getHandlerAdapter(handler);
 
-        // 어댑터는 handler(컨트롤러)를 호출하고 그 결과를 어댑터에 맞추어 반환
+        // 핸들러 어댑터 실행 -> 핸들러 어댑터를 통해 핸들러(컨트롤러) 실행 -> ModelView 반환
         ModelView mv = adapter.handle(request, response, handler);
 
         String viewName = mv.getViewName(); // 논리이름 new-form
 
+        // 뷰 리졸버를 통해서 뷰 찾기 -> 뷰 반환
         MyView view = viewResolver(viewName);
+        // 뷰 렌더링 호출
         view.render(mv.getModel(), request, response);
     }
 
@@ -87,7 +89,7 @@ public class FrontControllerServletV5 extends HttpServlet {
     }
 
     // 뷰 리졸버
-    // 컨트롤러가 반환한 논리 뷰 이름을 실제 물리 뷰 경로로 변경
+    // 컨트롤러가 반환한 논리 뷰 이름을 실제 물리 뷰 경로로 변경하고 뷰 반환
     private MyView viewResolver(String viewName) {
         return new MyView("/WEB-INF/views/" + viewName + ".jsp");
     }
